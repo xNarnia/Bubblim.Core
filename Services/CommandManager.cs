@@ -43,7 +43,9 @@ namespace Bubblim.Core.Services
             if (result.Error.HasValue &&
                 result.Error.Value != CommandError.UnknownCommand) // it's bad practice to send 'unknown command' errors
             {
-                await context.Channel.SendMessageAsync(result.ErrorReason);
+                if (result.Error.Value != CommandError.UnmetPrecondition)
+                    await context.Channel.SendMessageAsync(result.ErrorReason);
+
                 PrettyPrint.WriteLine(result.ToString());
             }
         }
