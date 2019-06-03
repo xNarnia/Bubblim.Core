@@ -1,6 +1,7 @@
 # Bin folder
 bin/
 obj/
+.vs/
 
 # Windows image file caches
 Thumbs.db

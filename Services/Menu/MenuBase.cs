@@ -16,6 +16,7 @@ namespace Bubblim.Core.Services
         public string summary { get; set; }
         public string instructions { get; set; }
         public string oneTimeMessage { get; set; }
+        protected bool _prependQueuedMessage;
         protected List<IMenuItem> _menus;
         protected List<MenuHeader> _headers;
         private bool _displayEnabled = true;
@@ -35,6 +36,7 @@ namespace Bubblim.Core.Services
             _waitingForInput = false;
             _embed = null;
             _initialized = false;
+            _prependQueuedMessage = false;
         }
 
         public virtual void Init() { }
@@ -57,14 +59,26 @@ namespace Bubblim.Core.Services
 
             if(oneTimeMessage != null)
             {
-                response += $"{oneTimeMessage}\n\n";
-                oneTimeMessage = null;
+                if (_prependQueuedMessage)
+                {
+                    response += $"{oneTimeMessage}\n\n";
+                    oneTimeMessage = null;
+                }
             }
 
             response += GetHeader();
             response += GetTitle();
             response += GetMenuList();
             response += GetFooter();
+
+            if (oneTimeMessage != null)
+            {
+                if (!_prependQueuedMessage)
+                {
+                    response += $"\n\n{oneTimeMessage}";
+                    oneTimeMessage = null;
+                }
+            }
 
             try
             {
@@ -75,7 +89,11 @@ namespace Bubblim.Core.Services
                     _stream = null;
                 }
                 else
-                    await user.SendMessageAsync(response, false, _embed.Build());
+                {
+                    Embed embed = _embed != null ? _embed.Build() : null;
+                    
+                    await user.SendMessageAsync(response, false, embed);
+                }
             }
             catch(Exception e) //ArgumentException
             {

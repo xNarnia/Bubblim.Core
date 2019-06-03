@@ -128,19 +128,19 @@ namespace Bubblim.Core.Services
 
         public void EnterMenu(MenuBase menu, IUser user)
         {
-            PrettyPrint.WriteLine("stuff");
             try
             {
-                PrettyPrint.WriteLine("stuff");
-                if (UserInMenu(user)) _users.Remove(user.Id);
-                PrettyPrint.WriteLine("stuff");
+                if (UserInMenu(user))
+                {
+                    _users.TryGetValue(user.Id, out var usermenu);
+                    usermenu?.Dispose();
+                }
             }
             catch (Exception e)
             {
                 PrettyPrint.WriteLine(e.Message);
             }
 
-            PrettyPrint.WriteLine("stuff");
             // Initialize Menu and Display to User
             var menuUser = new MenuUser(user, menu, _users);
             _users.Add(user.Id, menuUser);
