@@ -76,8 +76,10 @@ namespace Bubblim.Core.Modules
         [Alias("cmd", "cmds")]
         [Summary("Shows all commands loaded into the command service.")]
         [RequireUserPermission(GuildPermission.Administrator)]
-        public async Task ListCommands(string botName)
+        public async Task ListCommands(string botName = null)
         {
+            if (botName == null) return;
+
             botName = botName.ToLower();
             if (botName != Assembly.GetEntryAssembly().GetName().Name.ToLower()
                 && botName != "all") return;

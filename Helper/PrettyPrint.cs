@@ -52,12 +52,12 @@ namespace Bubblim.Core
 
         public static void Log(object severity, string source, string message)
         {
-            PrettyPrint.WriteLine($"[{severity}] ", ConsoleColor.Red);
-            PrettyPrint.Write($"{source}: ", ConsoleColor.DarkGreen);
+            PrettyPrint.WriteLine($"[{severity}] ", ConsoleColor.DarkMagenta);
+            PrettyPrint.Write($"{source}: ", ConsoleColor.Blue);
             PrettyPrint.Write(message, ConsoleColor.White);
         }
 
-        public static Task LogAsync(object severity, string source, string message)
+        public static Task LogAsync(LogSeverity severity, string source, string message)
         {
             PrettyPrint.WriteLine($"[{severity}] \t", ConsoleColor.DarkMagenta);
             PrettyPrint.Write($"{source}: ", ConsoleColor.Blue);

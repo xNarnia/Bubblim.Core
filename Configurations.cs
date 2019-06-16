@@ -55,7 +55,7 @@ namespace Bubblim.Core
 
             if (config.Tokens.DiscordBotToken == "")
             {
-                PrettyPrint.Log(LogSeverity.Warning, "Token", "Please enter your discord bot token: ");
+                PrettyPrint.Log(LogSeverity.Info, "Token", "Please enter your discord bot token: ");
                 string intoken = Console.ReadLine();
 
                 Tokens.DiscordBotToken = intoken;

@@ -33,7 +33,7 @@ namespace Bubblim
             PrettyPrint.Log((SocketUserMessage)rawMsg);
         }
 
-        public Task LogAsync(object severity, string source, string message)
+        public Task LogAsync(LogSeverity severity, string source, string message)
         {
             return PrettyPrint.LogAsync(severity, source, message);
         }
