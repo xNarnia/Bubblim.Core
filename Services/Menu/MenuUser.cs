@@ -85,6 +85,12 @@ namespace Bubblim.Core.Services
             return message;
         }
 
+        public void Dispose()
+        {
+            _parent.Remove(user.Id);
+            _timeoutTimer.Dispose();
+        }
+
         private void EndRateLimit(Object source, ElapsedEventArgs e)
         {
             rateLimited = false;
@@ -93,8 +99,7 @@ namespace Bubblim.Core.Services
 
         private void RemoveSelf(Object source, ElapsedEventArgs e)
         {
-            _parent.Remove(user.Id);
-            _timeoutTimer.Dispose();
+            Dispose();
             user.SendMessageAsync("Menu has closed. Please open the menu again if you wish to continue.");
         }
     }
